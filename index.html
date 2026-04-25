@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<!-- Photos: inside any .slot, add <img src="your-photo.jpg" alt=""> (no captions). -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Happy 31, Sam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Monoton&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span>
+    </div>
+    <canvas id="ink-canvas" aria-hidden="true"></canvas>
+
+    <div class="wrap">
+      <header class="hero">
+        <h1>Happy birthday, Sam</h1>
+        <button type="button" class="hero-hole" id="hero-hole-btn" aria-describedby="hero-hole-pop">
+          <span class="hero-hole-grass"></span>
+          <span class="hero-hole-core">31</span>
+          <span class="hero-hole-flag" aria-hidden="true"></span>
+        </button>
+        <p class="hero-hole-pop" id="hero-hole-pop" role="status" aria-live="polite">
+          Hole in (thirty) ONE
+        </p>
+        <p class="hero-message">
+          My love, thank you for being you. HAPPY BIRTHDAY!! You absolutely
+          crushed 30 and now I'm excited for all that you'll accomplish in year
+          31. Maxey and I are so grateful you are in our lives! You make every
+          day better just by being you. Love you so much! Can't wait to see all
+          the websites we're going to build this year 😂 We're unstoppable!
+        </p>
+      </header>
+
+      <section class="interactive-hub reveal" aria-labelledby="hub-title">
+        <div class="section-head hub-head">
+          <span class="flag" aria-hidden="true">&#9733;</span>
+          <h2 id="hub-title">Interactive hub</h2>
+        </div>
+
+        <div class="interactive-hub-dashboard">
+          <section class="vibe" aria-labelledby="vibe-title">
+            <h2 id="vibe-title">Set the vibe</h2>
+            <p>
+              New rap energy + birthday spirit. Hit play and scroll the memories.
+            </p>
+            <button type="button" class="vibe-toggle" id="vibe-toggle" aria-expanded="false">
+              Play the playlist
+            </button>
+            <div class="vibe-panel" id="vibe-panel" aria-live="polite">
+              <div class="vibe-panel-inner">
+                <iframe
+                  id="spotify-frame"
+                  title="Spotify playlist"
+                  loading="lazy"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  src="about:blank"
+                ></iframe>
+              </div>
+            </div>
+            <p style="margin-top: 0.85rem; font-size: 0.8rem; color: #9a8fb0">
+              To use your own mix: open <code>script.js</code> and change
+              <code>SPOTIFY_PLAYLIST_ID</code> to your playlist's ID from Spotify's
+              share link.
+            </p>
+          </section>
+
+          <div class="interactive-hub-trivia" aria-labelledby="trivia-title">
+            <div class="trivia-card">
+              <h3 id="trivia-title" class="hub-panel-title">Speedy sports trivia</h3>
+              <div class="trivia-modes" role="group" aria-label="Difficulty">
+                <button type="button" class="trivia-mode-btn is-active" data-mode="easy">
+                  Easy
+                </button>
+                <button type="button" class="trivia-mode-btn" data-mode="medium">
+                  Medium
+                </button>
+                <button type="button" class="trivia-mode-btn" data-mode="hard">
+                  Hard
+                </button>
+              </div>
+              <p id="trivia-progress" class="trivia-progress"></p>
+              <p id="trivia-question" class="trivia-question"></p>
+              <div id="trivia-options" class="trivia-options"></div>
+              <p id="trivia-feedback" class="trivia-feedback" aria-live="polite"></p>
+              <div class="trivia-actions">
+                <button type="button" id="trivia-next" class="trivia-nav-btn" hidden>
+                  Next question
+                </button>
+                <button type="button" id="trivia-restart" class="trivia-nav-btn trivia-nav-btn--secondary" hidden>
+                  Play again
+                </button>
+              </div>
+            </div>
+          </div>
+          <section class="hub-game" aria-labelledby="hub-game-title">
+          <h3 id="hub-game-title">Mini golf challenge</h3>
+          <p class="hub-game-note">Built-in mode: line up your shot and sink it.</p>
+          <div class="hub-game-panel is-open" id="hub-game-panel" aria-live="polite">
+            <div class="hub-game-panel-inner">
+              <div class="mini-golf" id="mini-golf-game">
+                <canvas
+                  id="mini-golf-canvas"
+                  class="mini-golf-canvas"
+                  width="520"
+                  height="320"
+                  aria-label="Mini golf game area"
+                ></canvas>
+                <div class="mini-golf-controls">
+                  <label class="mini-golf-label" for="mini-golf-angle">Aim</label>
+                  <input id="mini-golf-angle" class="mini-golf-range" type="range" min="-180" max="180" step="1" value="-35" />
+                  <label class="mini-golf-label" for="mini-golf-power">Power</label>
+                  <input id="mini-golf-power" class="mini-golf-range" type="range" min="20" max="100" step="1" value="62" />
+                  <div class="mini-golf-actions">
+                    <button type="button" id="mini-golf-shoot" class="trivia-nav-btn">Shoot</button>
+                    <button type="button" id="mini-golf-reset" class="trivia-nav-btn trivia-nav-btn--secondary">New hole</button>
+                  </div>
+                </div>
+                <p id="mini-golf-status" class="mini-golf-status" aria-live="polite">Hole 1 - Strokes: 0</p>
+              </div>
+            </div>
+          </div>
+          <p class="hub-game-note" style="margin-top: 0.55rem">Tip: short power is clutch near the cup.</p>
+          </section>
+          <section class="hub-game hub-game--nyc" aria-labelledby="nyc-price-game-title">
+          <h3 id="nyc-price-game-title">NYC listing price guess</h3>
+          <p class="hub-game-note">5 active listings. Guess the asking price, then reveal the answer.</p>
+          <div class="nyc-game-card">
+            <p id="nyc-game-progress" class="nyc-game-progress"></p>
+            <a id="nyc-game-link" class="nyc-game-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+            <p id="nyc-game-meta" class="nyc-game-meta"></p>
+            <div class="nyc-game-media" id="nyc-game-media">
+              <button type="button" class="nyc-media-btn nyc-media-btn--prev" id="nyc-media-prev" aria-label="Previous photo">
+                &#8249;
+              </button>
+              <img id="nyc-game-image" class="nyc-game-image" alt="Apartment listing photo" />
+              <button type="button" class="nyc-media-btn nyc-media-btn--next" id="nyc-media-next" aria-label="Next photo">
+                &#8250;
+              </button>
+            </div>
+            <p id="nyc-game-image-count" class="nyc-game-image-count"></p>
+            <label for="nyc-game-guess" class="nyc-game-label">Your guess (USD)</label>
+            <input id="nyc-game-guess" class="nyc-game-input" type="number" min="0" step="1000" />
+            <div class="nyc-game-actions">
+              <button type="button" id="nyc-game-submit" class="trivia-nav-btn">Check guess</button>
+              <button type="button" id="nyc-game-next" class="trivia-nav-btn trivia-nav-btn--secondary" hidden>
+                Next listing
+              </button>
+              <button type="button" id="nyc-game-restart" class="trivia-nav-btn trivia-nav-btn--secondary" hidden>
+                Play again
+              </button>
+            </div>
+            <p id="nyc-game-feedback" class="trivia-feedback" aria-live="polite"></p>
+          </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section reveal" aria-labelledby="highlights-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127942;</span>
+          <h2 id="highlights-title">Highlights</h2>
+        </div>
+        <div class="highlights-grid">
+          <article class="highlight-card highlight-card--golf">
+            <h3>Golf personal best</h3>
+            <p class="highlight-number">86</p>
+            <p>Personal best. Fully countable. Zero debate.</p>
+          </article>
+          <article class="highlight-card highlight-card--travel">
+            <h3>Countries visited</h3>
+            <p class="highlight-number">6</p>
+            <p>Six countries in one year. Passport stayed busy.</p>
+          </article>
+          <article class="highlight-card highlight-card--bald">
+            <h3>Committed to the bald club</h3>
+            <p>
+              Full-send commitment this year: cleaner look, lower drag coefficient,
+              and mathematically zero bad hair days.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- United States -->
+      <section class="section reveal" aria-labelledby="us-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127482;&#127480;</span>
+          <h2 id="us-title">United States</h2>
+        </div>
+
+        <article class="place">
+          <h3>New Orleans - your 30th</h3>
+          <div class="photo-grid grid-5" role="region" aria-label="New Orleans photos">
+            <div class="slot"><img src="images/new-orleans/nola-01.png" alt="" /></div>
+            <div class="slot"><img src="images/new-orleans/nola-02.png" alt="" /></div>
+            <div class="slot"><img src="images/new-orleans/nola-03.png" alt="" /></div>
+            <div class="slot"><img src="images/new-orleans/nola-04.png" alt="" /></div>
+            <div class="slot"><img src="images/new-orleans/nola-05.png" alt="" /></div>
+          </div>
+        </article>
+
+        <article class="place">
+          <h3>Burning Man</h3>
+          <div class="photo-grid grid-4">
+            <div class="slot"><img src="images/burning-man/bm-02.png" alt="" /></div>
+            <div class="slot"><img src="images/burning-man/bm-03.png" alt="" /></div>
+            <div class="slot"><img src="images/burning-man/bm-04.png" alt="" /></div>
+            <div class="slot"><img src="images/burning-man/bm-05.png" alt="" /></div>
+          </div>
+        </article>
+
+        <article class="place">
+          <h3>Vermont - ski trip</h3>
+          <div class="photo-grid grid-3">
+            <div class="slot"><img src="images/vermont/vt-01.png" alt="" /></div>
+            <div class="slot"><img src="images/vermont/vt-02.png" alt="" /></div>
+            <div class="slot"><img src="images/vermont/vt-03.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Netherlands -->
+      <section class="section reveal" aria-labelledby="nl-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127475;&#127473;</span>
+          <h2 id="nl-title">Netherlands</h2>
+        </div>
+        <article class="place">
+          <h3>Amsterdam</h3>
+          <div class="photo-grid grid-3">
+            <div class="slot"><img src="images/amsterdam/ams-01.png" alt="" /></div>
+            <div class="slot"><img src="images/amsterdam/ams-02.png" alt="" /></div>
+            <div class="slot"><img src="images/amsterdam/ams-03.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Czech Republic -->
+      <section class="section reveal" aria-labelledby="cz-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127464;&#127487;</span>
+          <h2 id="cz-title">Czech Republic</h2>
+        </div>
+        <article class="place">
+          <h3>Prague</h3>
+          <div class="photo-grid grid-5">
+            <div class="slot"><img src="images/prague/prg-01.png" alt="" /></div>
+            <div class="slot"><img src="images/prague/prg-02.png" alt="" /></div>
+            <div class="slot"><img src="images/prague/prg-03.png" alt="" /></div>
+            <div class="slot"><img src="images/prague/prg-04.png" alt="" /></div>
+            <div class="slot"><img src="images/prague/prg-05.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Germany -->
+      <section class="section reveal" aria-labelledby="de-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127465;&#127466;</span>
+          <h2 id="de-title">Germany</h2>
+        </div>
+        <article class="place">
+          <h3>Berlin</h3>
+          <div class="photo-grid grid-3">
+            <div class="slot"><img src="images/germany/ger-01.png" alt="" /></div>
+            <div class="slot"><img src="images/germany/ger-02.png" alt="" /></div>
+            <div class="slot"><img src="images/germany/ger-03.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- India -->
+      <section class="section reveal" aria-labelledby="in-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127470;&#127475;</span>
+          <h2 id="in-title">India</h2>
+        </div>
+        <article class="place">
+          <h3>India</h3>
+          <div class="photo-grid grid-3">
+            <div class="slot"><img src="images/india/ind-01.png" alt="" /></div>
+            <div class="slot"><img src="images/india/ind-02.png" alt="" /></div>
+            <div class="slot"><img src="images/india/ind-03.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Singapore -->
+      <section class="section reveal" aria-labelledby="sg-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127480;&#127468;</span>
+          <h2 id="sg-title">Singapore</h2>
+        </div>
+        <article class="place">
+          <h3>Singapore</h3>
+          <div class="photo-grid grid-3">
+            <div class="slot"><img src="images/singapore/sgp-01.png" alt="" /></div>
+            <div class="slot"><img src="images/singapore/sgp-02.png" alt="" /></div>
+            <div class="slot"><img src="images/singapore/sgp-03.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Taiwan -->
+      <section class="section reveal" aria-labelledby="tw-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127481;&#127484;</span>
+          <h2 id="tw-title">Taiwan</h2>
+        </div>
+        <article class="place">
+          <h3>Taiwan</h3>
+          <div class="photo-grid grid-5">
+            <div class="slot"><img src="images/taiwan/twn-01.png" alt="" /></div>
+            <div class="slot"><img src="images/taiwan/twn-02.png" alt="" /></div>
+            <div class="slot"><img src="images/taiwan/twn-03.png" alt="" /></div>
+            <div class="slot"><img src="images/taiwan/twn-04.png" alt="" /></div>
+            <div class="slot"><img src="images/taiwan/twn-05.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Ryder Cup -->
+      <section class="section reveal" aria-labelledby="ryder-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#9971;</span>
+          <h2 id="ryder-title">Ryder Cup</h2>
+        </div>
+        <article class="place">
+          <h3>Ryder Cup moments</h3>
+          <div class="photo-grid grid-4">
+            <div class="slot"><img src="images/ryder-cup/rcup-01.png" alt="" /></div>
+            <div class="slot"><img src="images/ryder-cup/rcup-02.png" alt="" /></div>
+            <div class="slot"><img src="images/ryder-cup/rcup-03.png" alt="" /></div>
+            <div class="slot"><img src="images/ryder-cup/rcup-04.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Liberty Games -->
+      <section class="section reveal" aria-labelledby="liberty-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#127936;</span>
+          <h2 id="liberty-title">Liberty games</h2>
+        </div>
+        <article class="place">
+          <h3>Liberty games</h3>
+          <div class="photo-grid grid-4">
+            <div class="slot"><img src="images/liberty-game/lib-01.png" alt="" /></div>
+            <div class="slot"><img src="images/liberty-game/lib-02.png" alt="" /></div>
+            <div class="slot"><img src="images/liberty-game/lib-03.png" alt="" /></div>
+            <div class="slot"><img src="images/liberty-game/lib-04.png" alt="" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Looking forward -->
+      <section class="section reveal" aria-labelledby="fwd-title">
+        <div class="section-head">
+          <span class="flag" aria-hidden="true">&#128302;</span>
+          <h2 id="fwd-title">What's next</h2>
+        </div>
+        <div class="forward">
+          <article>
+            <h3>May 25 - we're getting married</h3>
+            <p>
+              The main character arc of next year has a date on the calendar.
+              Everything else is just the supporting soundtrack.
+            </p>
+          </article>
+          <article>
+            <h3>Golf trip</h3>
+            <p>
+              More tee times, more fairway debates, and one more chance to put
+              another personal best on the board.
+            </p>
+          </article>
+          <article>
+            <h3>FIFA World Cup</h3>
+            <p>
+              Big screens, big feelings, and whatever snack situation you two
+              engineer. No notes - just football drama.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        Made with love - scroll again anytime the wanderlust hits.
+      </footer>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
